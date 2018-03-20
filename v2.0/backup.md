@@ -44,7 +44,7 @@ CockroachDB offers two types of backups: full and incremental.
 
 #### Full Backups
 
-Full backups contain an unreplicated copy of your data and can always be used to restore your cluster. These files are roughly the size of your data and require greater resources to produce than incremental backups. You can take full backups either as of a given timestamp or with full revision history.
+Full backups contain an unreplicated copy of your data and can always be used to restore your cluster. These files are roughly the size of your data and require greater resources to produce than incremental backups. You can take full backups as of a given timestamp and (optionally) include the available revision history.
 
 #### Incremental Backups
 
