@@ -76,7 +76,7 @@ Consider the database of a global online learning portal that has a table for st
 
 ### Partitioning Key Considerations
 
-- For v2.0, you cannot change the primary key after you create the table. Provision for all future subpartitions by including those columns in the primary key. In the example of the online learning portal, if you think you might want to subpartition based on `expected_graduation_date` in the future, define the primary key as `(country, expected_graduation_date, id)`. However, v2.1 will allow you to change the primary key.
+- For v2.0, you cannot change the primary key after you create the table. Provision for all future subpartitions by including those columns in the primary key. In the example of the online learning portal, if you think you might want to subpartition based on `expected_graduation_date` in the future, define the primary key as `(country, expected_graduation_date, id)`. v2.1 will allow you to change the primary key.
 - The order in which the columns are defined in the primary key is important. The partitions and subpartitions need to follow that order. In the example of the online learning portal, if you define the primary key as `(country, expected_graduation_date, id)`, the primary partition is by `country`, and then subpartition is by `expected_graduation_date`. You can’t skip `country` and partition by `expected_graduation_date`.
 
 ### Partitioning and Index Columns
@@ -202,7 +202,9 @@ To set the enterprise license, see [Set the Trial or Enterprise License Key](ent
       PARTITION DEFAULT VALUES IN (default));
 ~~~
 
-#### Step 4. Create corresponding zone configurations:
+#### Step 4. Create and apply corresponding zone configurations:
+
+Create appropriate zone configurations:
 
 {% include copy-clipboard.html %}
 ~~~ shell
@@ -216,7 +218,7 @@ $ cat > australia.zone.yml
 constraints: [+datacenter=au1]
 ~~~
 
-#### Step 5. Apply zone configurations to corresponding partitions:
+Apply zone configurations to corresponding partitions:
 
 {% include copy-clipboard.html %} 
 ~~~ shell
@@ -228,7 +230,7 @@ $ cockroach zone set roachlearn.students_by_list.north_america --insecure  -f no
 $ cockroach zone set roachlearn.students_by_list.australia --insecure  -f australia.zone.yml
 ~~~
 
-#### Step 6. Verify table partitions
+#### Step 5. Verify table partitions
 
 {% include copy-clipboard.html %}
 ~~~ sql
@@ -302,7 +304,9 @@ $ cockroach start --insecure \
       PARTITION current VALUES FROM ('2017-08-15') TO (MAXVALUE));
 ~~~
 
-#### Step 4. Create corresponding zone configurations
+#### Step 4. Create and apply corresponding zone configurations
+
+Create appropriate zone configurations:
 
 {% include copy-clipboard.html %} 
 ~~~ shell
@@ -316,7 +320,7 @@ $ cat > graduated.zone.yml
 constraints: [+hdd]
 ~~~
 
-#### Step 5. Apply zone configurations to corresponding partitions
+Apply zone configurations to corresponding partitions:
 
 {% include copy-clipboard.html %} 
 ~~~ shell
@@ -328,7 +332,7 @@ $ cockroach zone set roachlearn.students_by_range.current --insecure  -f current
 $ cockroach zone set roachlearn.students_by_range.graduated --insecure  -f graduated.zone.yml
 ~~~
 
-#### Step 6. Verify table partitions
+#### Step 5. Verify table partitions
 
 {% include copy-clipboard.html %}
 ~~~ sql
@@ -418,7 +422,9 @@ To set the enterprise license, see [Set the Trial or Enterprise License Key](ent
 
 Subpartition names must be unique within a table. In our example, even though `graduated` and `current` are sub-partitions of distinct partitions, they still need to be uniquely named. Hence the names `graduated_au`, `graduated_us`, and `current_au` and `current_us`.
 
-#### Step 4. Create corresponding zone configurations
+#### Step 4. Create and apply corresponding zone configurations
+
+Create appropriate zone configurations:
 
 {% include copy-clipboard.html %}
 ~~~ shell
@@ -444,7 +450,7 @@ $ cat > graduated_au.zone.yml
 constraints: [+hdd,+datacenter=au1]
 ~~~
 
-#### Step 5. Apply zone configurations to corresponding partitions
+Apply zone configurations to corresponding partitions:
 
 {% include copy-clipboard.html %}
 ~~~ shell
@@ -466,7 +472,7 @@ $ cockroach zone set roachlearn.students.current_au --insecure -f current_au.zon
 $ cockroach zone set roachlearn.students.graduated_au --insecure -f graduated_au.zone.yml
 ~~~
 
-#### Step 6. Verify table partitions
+#### Step 5. Verify table partitions
 
 {% include copy-clipboard.html %}
 ~~~ sql
