@@ -60,7 +60,9 @@ Note the following restrictions:
 
 ### Backups with Revision History
 
-You can create full or incremental backups with revision history, which allows you to back up every change made within the garbage collection period leading up to and including the given timestamp. You can configure garbage collection periods using the `ttlseconds` [replication zone setting](configure-replication-zones.html). Taking backups with revision history allows for point-in-time restores within the revision history.
+You can create full backups with revision history, which allows you to back up every change made within the garbage collection period leading up to and including the given timestamp. You can configure garbage collection periods using the `ttlseconds` [replication zone setting](configure-replication-zones.html). Taking backups with revision history allows for point-in-time restores within the revision history.
+
+You can create incremental backups with revision history, which allows you to back up every change made since the last backup and within the garbage collection period leading up to and including the given timestamp. You can take incremental backups with revision history even when your previous full or incremental backups were taken without revision history.
 
 ## Performance
 
